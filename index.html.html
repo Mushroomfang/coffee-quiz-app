@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>你的咖啡靈魂測驗</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+            color: #6a3e2e; /* Coffee color */
+        }
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        .question p {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .options label {
+            display: block;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+        .options input[type="radio"] {
+            margin-right: 5px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #6a3e2e;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #5a3428;
+        }
+        #resultArea {
+            margin-top: 30px;
+            padding: 20px;
+            border: 2px dashed #a0857a;
+            border-radius: 5px;
+            background-color: #fff8f2;
+            min-height: 50px; /* Ensure space even when empty */
+        }
+        #resultArea h3 {
+            color: #6a3e2e;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>你的咖啡靈魂測驗</h1>
+        <p>測測看，哪一種特別的咖啡最能代表你的隱藏性格！</p>
+
+        <form id="coffeeQuizForm">
+
+            <div class="question">
+                <p>Q1: 你的一天通常如何開始？</p>
+                <div class="options">
+                    <label><input type="radio" name="q1" value="classic"> A. 充滿活力，準備征服世界！</label>
+                    <label><input type="radio" name="q1" value="pulp"> B. 緩慢步調，需要一點時間暖機。</label>
+                    <label><input type="radio" name="q1" value="ganoderma"> C. 迷迷糊糊，全靠咖啡續命（或任何提神物）。</label>
+                    <label><input type="radio" name="q1" value="cinnamon"> D. 思考人生，尋找新的靈感或刺激。</label>
+                </div>
+            </div>
+
+            <div class="question">
+                <p>Q2: 朋友會如何形容你？</p>
+                <div class="options">
+                    <label><input type="radio" name="q2" value="classic"> A. 穩重可靠，值得信賴的老朋友。</label>
+                    <label><input type="radio" name="q2" value="cinnamon"> B. 充滿熱情，總能帶來驚喜。</label>
+                    <label><input type="radio" name="q2" value="ganoderma"> C. 有點神秘，或者說，與眾不同！</label>
+                    <label><input type="radio" name="q2" value="pulp"> D. 隨和自在，喜歡簡單快樂。</label>
+                </div>
+            </div>
+
+            <div class="question">
+                <p>Q3: 遇到壓力時，你會？</p>
+                <div class="options">
+                    <label><input type="radio" name="q3" value="classic"> A. 硬著頭皮，堅持下去直到問題解決。</label>
+                    <label><input type="radio" name="q3" value="ganoderma"> B. 尋求內心的平靜，或者尋找一些「養生」方法。</label>
+                    <label><input type="radio" name="q3" value="cinnamon"> C. 找點特別的、能轉移注意力的事情來做。</label>
+                    <label><input type="radio" name="q3" value="pulp"> D. 乾脆放空，等壓力自己過去。</label>
+                </div>
+            </div>
+
+            <button type="button" id="submitQuiz">看看我的咖啡靈魂！</button>
+
+        </form>
+
+        <div id="resultArea">
+            <!-- 結果會顯示在這裡 -->
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('submitQuiz').addEventListener('click', function() {
+            const form = document.getElementById('coffeeQuizForm');
+            const resultArea = document.getElementById('resultArea');
+            const questions = ['q1', 'q2', 'q3'];
+            const scores = {
+                classic: 0,
+                cinnamon: 0,
+                ganoderma: 0,
+                pulp: 0
+            };
+
+            let allAnswered = true;
+            questions.forEach(qName => {
+                const selected = form.querySelector(`input[name="${qName}"]:checked`);
+                if (selected) {
+                    // Assign points based on selected value (simple scoring)
+                    // You could add more complex logic here if needed
+                    scores[selected.value]++;
+                } else {
+                    allAnswered = false;
+                }
+            });
+
+            if (!allAnswered) {
+                resultArea.innerHTML = "<h3>等等！</h3><p>還有題目沒回答哦！請完成所有問題。</p>";
+                return;
+            }
+
+            // Find the coffee type with the highest score
+            let maxScore = -1;
+            let resultCoffee = '';
+            // Iterate through possible coffee types to handle potential ties
+            const coffeeTypes = ['classic', 'cinnamon', 'ganoderma', 'pulp'];
+            // Simple approach: just pick the first one that matches max score
+            // More complex: shuffle types before checking or add tie-breaking rules
+            
+            let potentialResults = [];
+            for (const type in scores) {
+                if (scores[type] > maxScore) {
+                    maxScore = scores[type];
+                    potentialResults = [type]; // Start a new list of potential results
+                } else if (scores[type] === maxScore) {
+                    potentialResults.push(type); // Add to potential results if tied
+                }
+            }
+
+            // Pick one randomly if there's a tie
+            resultCoffee = potentialResults[Math.floor(Math.random() * potentialResults.length)];
+
+
+            const coffeeNames = {
+                classic: '帝雉經典濾掛咖啡',
+                cinnamon: '帝雉肉桂濾掛咖啡',
+                ganoderma: '靈芝濾掛咖啡',
+                pulp: '咖啡果肉茶'
+            };
+
+            const humorousAdvice = {
+                classic: '你就像經典咖啡一樣，雖然樸實無華，但在關鍵時刻總能給人溫暖與力量。不過小心，別穩定到變成老古董了，偶爾也讓生活來點驚喜吧！喝杯經典，提醒自己：你依然經典，只是可以更瘋狂一點！',
+                cinnamon: '你的內心住著一位冒險家，總喜歡在平淡中尋找一點刺激。就像肉桂咖啡一樣，給人意想不到的暖意。記得，熱情是好事，但別燒過頭變「肉桂捲」焦掉了！喝杯肉桂咖啡，讓你的熱情燃燒，但請保持防火安全距離！',
+                ganoderma: '恭喜你！你是個走在時代尖端、注重內在養生（或只是想嘗試怪東西）的獨特靈魂！靈芝咖啡就是你的註腳。喝完後，會不會原地飛昇我是不知道，但至少你今天比昨天「養生」了一點點！喝杯靈芝咖啡，感受那股神秘東方力量，然後看看有沒有長出靈芝寶寶！',
+                pulp: '你骨子裡不是個「苦」命的人，喜歡清爽無負擔的生活態度。咖啡果肉茶完美契合你那不想太嚴肅的靈魂。喝著這茶，你會感覺自己不是在喝咖啡，而是在花園裡散步... 記得別真的去吃咖啡果！喝杯咖啡果肉茶，享受這來自咖啡豆的新鮮體驗，然後對著豆子說聲「謝謝你的犧牲」。'
+            };
+
+            resultArea.innerHTML = `
+                <h3>你的咖啡靈魂是：</h3>
+                <h2>${coffeeNames[resultCoffee]}</h2>
+                <p>${humorousAdvice[resultCoffee]}</p>
+            `;
+        });
+    </script>
+
+</body>
+</html>
